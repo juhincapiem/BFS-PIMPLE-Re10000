@@ -1,0 +1,153 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+// EL valor que me va a ayudar a parametrizar
+h 2;
+
+//Las tres distancias en x
+x0 0;
+x1 #calc "5*$h";
+x2 #calc "15*$h";
+
+//Las dos distancias en y
+y0 -4; //#calc "-2*$h"; 
+y1 4; //#calc "2*$h";
+/*y1 #calc "5*$h";*/
+
+//Las tres dimensiones en z
+z0 0;
+z1 #calc "$h";
+z2 #calc "-1*$h";
+
+
+//Proporciones
+deltax #calc "0.025";
+deltay #calc "1";
+deltaz1 #calc "0.015";
+deltaz2 #calc "0.01";
+
+
+//Distancias en las tres dimensiones
+
+lx1 #calc "$x1-$x0"; 
+lx2 #calc "$x2-$x1";
+
+ly #calc "$y1-$y0";
+
+lz1 #calc "$z1-$z0";
+
+//Calculando el # de celdas por direccion principal
+
+xceldas1 #calc "round($lx1 / $deltax)"; //Bloque 1
+xceldas2 #calc "round($lx2 / $deltax)"; //BLoque 2 
+
+yceldas1 #calc "round($ly / $deltay)"; //Para todos los bloques
+
+zceldas1 #calc "round($lz1 / $deltaz1)"; //Bloque 1
+zceldas2 #calc "round($lz1 / $deltaz2)"; //Bloque 2
+
+
+vertices
+(
+
+//BLOCK #1
+    ( $x0    $y0    $z0 )    // v 0
+    ( $x1    $y0    $z0 )    // v 1
+    ( $x1    $y1    $z0 )    // v 2
+    ( $x0    $y1    $z0 )    // v 3
+    ( $x0    $y0    $z1 )    // v 4
+    ( $x1    $y0    $z1 )    // v 5
+    ( $x1    $y1    $z1 )    // v 6
+    ( $x0    $y1    $z1 )    // v 7
+    
+//BLOCK #2
+    ( $x2    $y0    $z0 )    // v 8
+    ( $x2    $y1    $z0 )    // v 9
+    ( $x2    $y0    $z1 )    // v 10
+    ( $x2    $y1    $z1 )    // v 11
+
+//BLOCK #3
+    ( $x1    $y0    $z2 )    // v 12
+    ( $x2    $y0    $z2 )    // v 13
+    ( $x1    $y1    $z2 )    // v 14
+    ( $x2    $y1    $z2 )    // v 15
+
+);
+
+
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (60 20 80) simpleGrading (0.2 1 5) //B1
+    hex (1 8 9 2 5 10 11 6) (80 20 80) simpleGrading (5 1 5) //B2
+    hex (12 13 15 14 1 8 9 2) (80 20 80) simpleGrading (5 1 5) //B3
+);
+
+boundary                // keyword
+(
+    inlet            // patch name
+    {
+        type patch;  
+        faces ((0 4 7 3));
+    }                  
+
+    outlet             // patch name
+    {
+        type patch;  
+        faces ((9 11 10 8) (15 9 8 13));
+    }
+	
+	
+    nsw //Superior e inferior para la condicion de no deslizamiento (No Slip Wall)
+    {
+        type wall;
+	faces
+	(
+	    //B1
+	    (4 5 6 7)
+	    (0 3 2 1)
+	        
+	    //B2
+	    (5 10 11 6)
+	        
+	    //B3
+	    (1 2 14 12)
+	    (12 14 15 13)
+	        
+	 );
+    }
+	
+
+    forward //Adelante
+    {
+        type            empty;
+        faces           ((0 1 5 4) (1 8 10 5) (12 13 8 1)); //B1 B2 B3
+    }
+    
+    backward//Atras
+    {
+        type            empty;
+        faces           ((3 7 6 2) (2 6 11 9) (14 2 9 15)); //B1 B2 B3
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
