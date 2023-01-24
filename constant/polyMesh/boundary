@@ -19,43 +19,43 @@ FoamFile
     inlet
     {
         type            patch;
-        nFaces          800;
-        startFace       507400;
+        nFaces          400;
+        startFace       437800;
     }
     outlet
     {
         type            patch;
-        nFaces          1600;
-        startFace       508200;
+        nFaces          800;
+        startFace       438200;
     }
     nsw
     {
         type            wall;
         inGroups        List<word> 1(wall);
-        nFaces          3600;
-        startFace       509800;
+        nFaces          4800;
+        startFace       439000;
     }
     forward
     {
         type            cyclic;
         inGroups        List<word> 1(cyclic);
-        nFaces          17600;
-        startFace       513400;
+        nFaces          15200;
+        startFace       443800;
         matchTolerance  0.0001;
         neighbourPatch  backward;
         transformType   translational;
-        separation      (0 -4 0);
+        separation      (-1.110223024625157e-16 -0.09999999999999999 -1.734723475976807e-18);
     }
     backward
     {
         type            cyclic;
         inGroups        List<word> 1(cyclic);
-        nFaces          17600;
-        startFace       531000;
+        nFaces          15200;
+        startFace       459000;
         matchTolerance  0.0001;
         neighbourPatch  forward;
         transformType   translational;
-        separation      (0 4 0);
+        separation      (1.110223024625157e-16 0.09999999999999999 1.734723475976807e-18);
     }
 )
 

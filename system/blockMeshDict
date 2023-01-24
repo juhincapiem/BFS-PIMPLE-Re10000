@@ -16,22 +16,22 @@ FoamFile
 convertToMeters 1;
 
 // EL valor que me va a ayudar a parametrizar
-h 2;
+h 0.1;
 
 //Las tres distancias en x
 x0 0;
-x1 #calc "5*$h";
-x2 #calc "15*$h";
+x1 #calc "4*$h";
+x2 #calc "12*$h";
 
 //Las dos distancias en y
 y0 0;
-y1 #calc "2*$h";
+y1 #calc "1*$h";
 /*y1 #calc "5*$h";*/
 
 //Las tres dimensiones en z
 z0 0;
-z1 #calc "2*$h";
-z2 #calc "-2*$h";
+z1 #calc "1*$h";
+z2 #calc "-1*$h";
 
 
 //Proporciones
@@ -92,9 +92,9 @@ vertices
 
 blocks
 (
-    hex (0 1 2 3 4 5 6 7) (60 10 80) simpleGrading (0.2 1 5) //B1
-    hex (1 8 9 2 5 10 11 6) (80 10 80) simpleGrading (5 1 5) //B2
-    hex (12 13 15 14 1 8 9 2) (80 10 80) simpleGrading (5 1 5) //B3
+    hex (0 1 2 3 4 5 6 7) (60 10 40) simpleGrading (0.8 1 2.5) //B1
+    hex (1 8 9 2 5 10 11 6) (160 10 40) simpleGrading (2.5 1 2.5) //B2
+    hex (12 13 15 14 1 8 9 2) (160 10 40) simpleGrading (2.5 1 2.5) //B3
 );
 
 boundary                // keyword
