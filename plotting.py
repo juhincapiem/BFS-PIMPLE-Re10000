@@ -119,19 +119,20 @@ axs[0, 0].set_ylabel('Ux [m/s]')
 
 axs[0, 1].plot(time[50:], Res_Uy[50:], 'tab:orange')
 axs[0, 1].set_title('Residual of Uy from %.3f to %.1f seconds' %(time[50], time[-1]))
-axs[0, 0].set_ylabel('Uy [m/s]')
+axs[0, 1].set_ylabel('Uy [m/s]')
 
 axs[1, 0].plot(time[50:], Res_Uz[50:], 'tab:green')
 axs[1, 0].set_title('Residual of Uz from %.3f to %.1f seconds' %(time[50], time[-1]))
 axs[1, 0].set_xlabel('time [s]')
-axs[0, 0].set_ylabel('Uz [m/s]')
+axs[1, 0].set_ylabel('Uz [m/s]')
 
 axs[1, 1].plot(time[50:], courant[50:], 'tab:red')
 axs[1, 1].set_title('Max Courant number, from %.3f to %.1f seconds' %(time[50], time[-1]))
 axs[1, 1].set_xlabel('time [s]')
-axs[0, 0].set_ylabel('max Courant')
+axs[1, 1].set_ylabel('max Courant')
 
 for ax in axs.flat:
     ax.grid()
     
 
+plt.show()
